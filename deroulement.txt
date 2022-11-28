@@ -1,0 +1,64 @@
+	1. Install et Config SSH
+
+- Pour verifier le statut ssh : sudo systemctl status ssh
+- Pour configurer 
+	- Acceder au fichier : sudo vim /etc/ssh/sshd_config
+	- Editer la ligne #22 -> Port 4242
+- Checker si la config a bien ete prise en compte 
+	- sudo grep Port /etc/ssh/sshd_config
+- Redemarrer le service SSH :
+	- sudo service ssh restart
+
+	2. Installer et configurer UFW 
+
+- Activer UFW : sudo ufw enable
+- Checker le satut : sudo ufw status numbered
+- Pour configurer les regles : sudo ufw allow ssh
+- Pour configurer les regles du port : sudo ufw allow 4242
+
+	3. Se connecter
+
+- Modifier les settings depuis Virtual Box
+- Depuis la VM relancer le serveur SSH : sudo systemctl restart ssh
+- Pour check le statut SSH : sudo service sshd status
+- Depuis un terminal sur l'hote : ssh mmrabet@127.0.0.1 -p 4243
+- Pour quitter : exit
+
+	4. Regler la politique de mdp
+
+- Install : sudo apt-get install libpam-pwquality
+- Acceder au fichier de config : sudo vim /etc/pam.d/common-password
+- Ajouter les regles : password requisite pam_pwquality.so retry=3 minlen=10 ucredit=-1 dcredit=-1 maxrepeat=3 reject_username difok=7 enforce_for_root
+- Acceder au fichier : sudo vim /etc/login.defs
+- Modifier le fichier : 
+	- PASS_MAX_DAYS 30
+	- PASS_MIN_DAYS 2hosts
+- Redemarer le system : sudo reboot
+
+	5. Creer un groupe
+
+- Pour creer un groupe : 
+	- sudo groupadd user42
+	- sudo groupadd evaluating
+- Check les group : getent group
+
+	6. Creer un user et le mettre dans un groupe
+
+- Check tout les users : cut -d: -f1 /etc/passwd
+- Creer un user : sudo adduser "nom-user"
+- Ajouter le user au groupe : sudo usermod -aG user42
+- Verifier si le user est present : getent group user42
+- Pour voir les groupes du user : groups
+- Check si le pwd respecte les regles quon a mis en place : chage -l mmrabet
+
+	7. Hostname
+
+- Montrer les infos du hostname : hostnamectl
+- Changer le nom de l'hostname : sudo hostnamectl set-hostname mmrabet42
+- Modifier le fichier : sudo vim /etc/hosts
+
+	8. Montrer les partitions
+
+- sudo lsblk
+
+Comment marche LVM ? Permet de chiffrer les partitions qui pourront etre dechifrer via notre cle generer au depart. 

@@ -1,0 +1,28 @@
+	Qu'est qu'une VM ? 
+
+	Objectif d'une VM
+
+Pour avoir environnement isole. 
+
+	Quel os ? 
+
+cat /etc/os-release
+
+	Politique de mdp
+
+- Votre mot de passe devra expirer tous les 30 jours.
+- Le nombre minimum de jours avant de pouvoir modifier un mot de passe sera
+configuré à 2.
+- L’utilisateur devra recevoir un avertissement 7 jours avant que son mot de passe
+n’expire.
+- Votre mot de passe sera de 10 caractères minimums dont une majuscule et un
+chiffre, et ne devra pas comporter plus de 3 caractères identiques consécutifs.
+
+dcredit : si le chiffre est négatif, c'est qu'il faut au moins x fois de nombre décimal pour que le mot de passe soit validé. (ici il faut au moins un décimal)
+ucredit : si le chiffre est négatif, c'est qu'il faut au moins x fois de lettre majuscule pour que le mot de passe soit validé. (ici il faut au moins une majuscule)
+lcredit : si le chiffre est négatif, c'est qu'il faut au moins x fois de lettre minuscule pour que le mot de passe soit validé. (ici il faut au moins une minuscule)
+
+	- CRON 
+
+sudo crontab -u root -e
+sudo /usr/local/bin/monitoring.sh

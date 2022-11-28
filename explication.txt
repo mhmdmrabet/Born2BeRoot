@@ -1,0 +1,98 @@
+	1. Qu'est qu'une machine virtuelle ?
+
+C'est une ressource qui utilise un logiciel au lieu d'un ordinateur physique pour executer des programmes ou des applications.
+Chaque VM a son propre systeme d'exploitation et fonctionne separement. 
+Une machine virtuelle ou VM est un environnement entièrement virtualisé qui fonctionne sur une machine physique. Elle exécute son propre système d'exploitation (OS) et bénéficie des mêmes équipement qu'une machine physique : CPU, mémoire RAM, disque dur et carte réseau.
+
+	2. Quelle est la difference entre aptitude et APT
+
+Aptitude est un gestionnaire de package de haut niveau tandis a l'inverse d'APT.
+Aptitude supprime automatiquement les packages de inutilises.
+Apt ne fait que ce qu'on lui demande.
+
+	3. Qu'est ce qu'AppArmor
+
+C'est un systeme de securite Linux qui permet a l.administrareur systeme de limiter les actions que les processus peuvent effectuer.
+
+https://fr.wikipedia.org/wiki/AppArmor : AppArmor (Application Armor) est un logiciel de sécurité pour Linux.mmra
+AppArmor permet à l'administrateur système d'associer à chaque programme un profil de sécurité qui restreint ses accès au système d'exploitation.
+
+https://fr.wikipedia.org/wiki/SELinux : Security-Enhanced Linux, abrégé SELinux, est un Linux security module (LSM), qui permet de définir une politique de contrôle d'accès obligatoire aux éléments d'un système issu de Linux.
+
+	4. SSH
+
+https://fr.wikipedia.org/wiki/Secure_Shell :
+Secure Shell (SSH) est à la fois un programme informatique et un protocole de communication sécurisé. Le protocole de connexion impose un échange de clés de chiffrement en début de connexion. Par la suite, tous les segments TCP sont authentifiés et chiffrés. Il devient donc impossible d'utiliser un sniffer pour voir ce que fait l'utilisateur.
+
+	5. Pare-feu
+
+Un pare-feu est un logiciel et/ou un matériel permettant de faire respecter la politique de sécurité du réseau, celle-ci définissant quels sont les types de communications autorisés sur ce réseau informatique. Il surveille et contrôle les applications et les flux de données (paquets).
+
+	6. UFW
+
+https://fr.wikipedia.org/wiki/Uncomplicated_Firewall :
+Uncomplicated Firewall (UFW) est un programme informatique pour gérer un pare-feu netfilter.
+UFW utilise une interface en ligne de commande avec des commandes simples pour configurer iptables3. UFW est disponible par défaut dans toutes les installations Ubuntu post version 8.04 LTS4.
+
+	7. Regle de password
+
+On utilise une librairie. Il y a deux fichiers de configuration situes :
+	Sudo nano /etc/login.defs 
+	Sudo nano /etc/pam.d/common-password
+
+	8. Systemctl 
+
+Systemd est un gestionnaire de systeme d'initialisation et de systeme qui est devenu la nouvelle norme pour les distribution de Linux. 
+Systemctl est l'outil de gestion essentiel pour controler le systeme d'initialisation. 
+L'objectif d'un systeme d'initialisation est d'initialiser les composants qui doivent etre demarres une fois que le noyau Linux est lance. Le syteme permet de gerer a tout moment les services et les demons du serveur alors que le systeme est en marche. 
+
+	9. Qu'est ce que LVM ? 
+
+Logical Volume Manager : 
+La gestion par volumes logiques est a la fois une methode et un logiciel de gestion de l'utilisation des espaces de stockage d'un ordinateur. Il permet de gerer, securiser et optimiser de maniere souple les espaces de stockages en ligne dans les systeme d'exploitation de type UNIX. 
+
+	10. Qu'est ce qu'un CRON 
+
+C'est un utilitaire de ligne de commande permettant de programmer des commandes ou des scripts a des intervalles specifiques ou a une heure precise chaque jour.
+- Pour afficher monitoring.sh 
+	cd /usr/local/bin
+- Pour editer la tache cron
+	sudo crontab -u root -e
+
+	11. SUDO
+
+- Se loger en root : su - 
+- Pour ajouter un user au group sudo : usermod -aG sudo mmrabet
+- Checker si le user est present dans les sudoers : getent group sudo 
+- Voir le fichier sudoers : sudo visudo 
+- Ajouter dans "USER PRIVILIGE" : username ALL=(ALL) ALL
+
+	12. Creer SUDO LOG
+
+- Allez dans le dossier sudo et creer un fichier sudo.log
+
+- Configurer les sudoers : vim /etc/sudoers
+
+TTY (requiretty):
+Lorsque requiretty est défini, sudo doit être exécuté à partir d'une session de terminal connecté (un tty). Cela empêche sudo d'être utilisé par des daemon ou d'autres processus détachés comme les cronjobs ou les plugins de serveur Web. Cela signifie également que vous ne pouvez pas l'exécuter directement à partir d'un sshappel sans configurer une session de terminal.
+
+Pour mettre en place une configuration stricte dans votre groupe sudo, il faudra remplir les conditions suivantes :
+• L’authentification en utilisant sudo sera limitée à 3 essais en cas de mot de passe
+erroné.
+• Un message de votre choix s’affichera en cas d’erreur suite à un mauvais mot de
+passe lors de l’utilisation de sudo.
+• Chaque action utilisant sudo sera archivée, aussi bien les inputs que les outputs.
+Le journal se trouvera dans le dossier /var/log/sudo/.
+• Le mode TTY sera activé pour des questions de sécurité.
+• Les paths utilisables par sudo seront restreints, là encore pour des questions de
+sécurité. Exemple :
+/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin
+
+Defaults	env_reset
+Defaults	mail_badpass
+Defaults	secure_path="/usr/local/sbin:/usr/local/bin:/usr/bin:/sbin:/bin"
+Defaults	badpass_message="Password is wrong, please try again!"
+Defaults	passwd_tries=3
+Defaults	logfile="/var/log/sudo.log"
+Defaults	log_input, log_output
+Defaults	requiretty
